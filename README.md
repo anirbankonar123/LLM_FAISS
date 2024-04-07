@@ -5,10 +5,6 @@ openhermes-mistral-7B (4-bit quantized)
 Google gemini-pro
 Google text-bison
 
-Sample csv is provided for ref.
-
-Before running this, the following is needed:
-
 Install the following dependencies:
 openai==0.28.1<br>
 langchain==0.0.316<br>
