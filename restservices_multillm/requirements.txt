@@ -1,0 +1,14 @@
+fastapi
+pydantic>=1.8.0,<2.0.0
+uvicorn>=0.15.0,<0.16.0
+python-multipart
+aiofiles
+scipy
+pandas
+llama-cpp-python
+transformers['pytorch']
+openai==0.28.1
+langchain==0.0.316
+#CUDACXX=/usr/local/cuda-11.8/bin/nvcc CMAKE_ARGS="-DLLAMA_CUBLAS=on -DCMAKE_CUDA_ARCHITECTURES=all-major" FORCE_CMAKE=1 pip install llama-cpp-python --no-cache-dir --force-reinstall --upgrade
+google-generativeai
+google-cloud-aiplatform
