@@ -10,22 +10,22 @@ Sample csv is provided for ref.
 Before running this, the following is needed:
 
 Install the following dependencies:
-openai==0.28.1
-langchain==0.0.316
-langchain_community
-fastapi
-pyPDF
-python-multipart
-uvicorn
-fastapi_utils
-transformers['torch']
-faiss-gpu
-sentence-transformers
-sentencepiece
-llama_cpp
-llama-cpp-python (#CUDACXX= CMAKE_ARGS="-DLLAMA_CUBLAS=on -DCMAKE_CUDA_ARCHITECTURES=all-major" FORCE_CMAKE=1 pip install llama-cpp-python --no-cache-dir --force-reinstall --upgrade)
-google-generativeai
-google-cloud-aiplatform
+openai==0.28.1<br>
+langchain==0.0.316<br>
+langchain_community<br>
+fastapi<br>
+pyPDF<br>
+python-multipart<br>
+uvicorn<br>
+fastapi_utils<br>
+transformers['torch']<br>
+faiss-gpu<br>
+sentence-transformers<br>
+sentencepiece<br>
+llama_cpp<br>
+llama-cpp-python (#CUDACXX= CMAKE_ARGS="-DLLAMA_CUBLAS=on -DCMAKE_CUDA_ARCHITECTURES=all-major" FORCE_CMAKE=1 pip install llama-cpp-python --no-cache-dir --force-reinstall --upgrade)<br>
+google-generativeai<br>
+google-cloud-aiplatform<br>
 
 Steps to install cuda: https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=20.04&target_type=deb_network <br>
 https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#pre-installation-actions<br>
