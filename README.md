@@ -34,11 +34,11 @@ FAISS Ref: langchain-ai/langchain#2699 https://api.python.langchain.com/en/lates
 
 VectorDB Ref: https://thedataquarry.com/posts/vector-db-1/#location-of-headquarters-and-funding<br>
 
-To run REST API: cd restservices
-Open the app/main.py in any editor and supply a intial PDF file you want to ingest in fileName=..
-Open the utils/qa_util.py in any editor and supply the Google Vertex AI Service Account json file path in key_path=...
-Provide the palm api key in palm.configure(api_key=...
-Provide the Vertex AI project id in PROJECT_ID=
+To run REST API: cd restservices<br>
+Open the app/main.py in any editor and supply a intial PDF file you want to ingest in fileName=..<br>
+Open the utils/qa_util.py in any editor and supply the Google Vertex AI Service Account json file path in key_path=...<br>
+Provide the palm api key in palm.configure(api_key=...<br>
+Provide the Vertex AI project id in PROJECT_ID=<br>
 export OPENAI_API_KEY=
 Run the cmd:
 uvicorn app.main:app --reload
