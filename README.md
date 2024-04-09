@@ -1,9 +1,9 @@
-This repo provides a REST API system to do querying on private documents (/query endpoint) ingested using the /ingest endpoint REST API <br>
-The endpoints provide the facility to generate results using one of the 4 LLMs:
-openai (gpt-3.5-turbo)
-openhermes-mistral-7B (4-bit quantized)
-Google gemini-pro
-Google text-bison
+This repo provides a REST API system to do querying on private documents (/query endpoint) ingested using the /ingest endpoint into a local FAISS index <br> 
+The query endpoint providse the facility to generate results using one of the 4 LLMs:<br>
+openai (gpt-3.5-turbo)<br>
+openhermes-mistral-7B (4-bit quantized)<br>
+Google gemini-pro<br>
+Google text-bison<br>
 
 Install the following dependencies:
 openai==0.28.1<br>
@@ -26,7 +26,8 @@ google-cloud-aiplatform<br>
 Steps to install cuda: https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=20.04&target_type=deb_network <br>
 https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#pre-installation-actions<br>
 
-FAISS Ref: langchain-ai/langchain#2699 https://api.python.langchain.com/en/latest/vectorstores/langchain_community.vectorstores.faiss.FAISS.html<br>
+FAISS Ref: https://api.python.langchain.com/en/latest/vectorstores/langchain_community.vectorstores.faiss.FAISS.html<br>
+https://python.langchain.com/docs/integrations/vectorstores/faiss/ <br>
 
 VectorDB Ref: https://thedataquarry.com/posts/vector-db-1/#location-of-headquarters-and-funding<br>
 
