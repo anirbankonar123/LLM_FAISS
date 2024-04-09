@@ -31,7 +31,7 @@ https://python.langchain.com/docs/integrations/vectorstores/faiss/ <br>
 
 VectorDB Ref: https://thedataquarry.com/posts/vector-db-1/#location-of-headquarters-and-funding<br>
 
-To run REST API: cd restservices<br>
+To run REST API: cd restservices_multillm<br>
 Open the app/main.py in any editor and supply a intial PDF file you want to ingest in fileName=..<br>
 Open the utils/qa_util.py in any editor and supply the Google Vertex AI Service Account json file path in key_path=...<br>
 Provide the palm api key in palm.configure(api_key=...<br>
