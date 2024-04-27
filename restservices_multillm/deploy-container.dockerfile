@@ -12,6 +12,8 @@ COPY ./requirements.txt /code/requirements.txt
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 #RUN CUDACXX=/usr/local/cuda-11.8/bin/nvcc CMAKE_ARGS="-DLLAMA_CUBLAS=on -DCMAKE_CUDA_ARCHITECTURES=all-major" FORCE_CMAKE=1 pip install llama-cpp-python --no-cache-dir --force-reinstall --upgrade
 
+ENV OPENAI_API_KEY=<your openai key>
+
 COPY ./app /code/app
 COPY ./utils /code/utils
 COPY ./*.json /code/
