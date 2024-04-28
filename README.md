@@ -41,20 +41,23 @@ https://python.langchain.com/docs/integrations/vectorstores/faiss/ <br>
 
 VectorDB Ref: https://thedataquarry.com/posts/vector-db-1/#location-of-headquarters-and-funding<br>
 
-1. To deploy REST Endpoint locally 
-```
-export OPENAI_API_KEY=
-cd restservices_multillm<br>
-uvicorn app.main:app --reload
-```
+1. To deploy REST Endpoint locally
 Open the app/main.py in any editor and supply a intial PDF file you want to ingest in fileName=..<br>
 Open the utils/qa_util.py in any editor and supply the Google Vertex AI Service Account json file path in key_path=...<br>
 Provide the palm api key in palm.configure(api_key=...<br>
 Provide the Vertex AI project id in PROJECT_ID=<br>
+```
+export OPENAI_API_KEY=
+cd restservices_multillm
+uvicorn app.main:app --reload
+```
 
 Go to localhost:8000/docs to test REST Endpoints using Swagger interface
 
 2. To build docker image and deploy REST Endpoint:
+Open the app/main.py in any editor and supply a intial PDF file you want to ingest in fileName=/code/<file name><br>
+Open the utils/qa_util.py in any editor and supply the Google Vertex AI Service Account json file path in key_path=/code/<json file><br>
+Open the utils/qa_util.py and give the file name : model_path="/code/openhermes-2.5-mistral-7b.Q4_0.gguf
 ```
 docker build . -t rag-compare -f deploy-container.dockerfile
 docker run --name ragcompare -d -p 8000:8000 rag-compare
