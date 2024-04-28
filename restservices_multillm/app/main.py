@@ -14,13 +14,13 @@ app = FastAPI(description="Query App", version="0.1.0")
 def read_root():
     return {"msg": "Hello World"}
 
-model_kwargs = {"device":"cuda"}
+model_kwargs = {"device":"cpu"}
 model_name = "sentence-transformers/all-mpnet-base-v2"
 
 embeddings = HuggingFaceEmbeddings(model_name = model_name, model_kwargs = model_kwargs)
 
 #Initialize Vector DB with startup ingestion file
-fileName = "<intial file to ingest.pdf>"
+fileName = "IPCC_AR6_SYR_SPM.pdf"
 if os.path.exists("faiss_index_pg"):
     knowledgeBase = FAISS.load_local("faiss_index_pg", embeddings)
     print("knowledge base loaded")
@@ -50,6 +50,14 @@ async def query_api(query:str, modelName: data_models.ModelName, temperature: Un
 
     docs = search_util.search_vectordb(query,knowledgeBase,top_k_RAG)
     response_time=""
+
+    metadata_list = []
+    for i in range (len(docs)):
+        Metadata = data_models.Metadata()
+        Metadata.pageNo = docs[i].metadata['page']
+        Metadata.doc = docs[i].metadata['doc']
+        metadata_list.append(Metadata)
+
     try:
         query_response,response_time = qa_util.generate_answer(modelName,query,docs,temperature,top_p,max_tokens,repetition_penalty)
 
@@ -61,6 +69,7 @@ async def query_api(query:str, modelName: data_models.ModelName, temperature: Un
 
     output.response = query_response
     output.responseTime = response_time
+    output.metadata_list = metadata_list
 
     return output
 

@@ -8,12 +8,14 @@ class ModelName(StrEnum):
     gemini_pro = auto()
     palm_api_text_bison = auto()
 
+class Metadata(BaseModel):
+    pageNo:str=""
+    doc:str=""
 class Output(BaseModel):
     response:list[str]=[]
     responseTime:str=""
     status:str="success"
-    fluency_score:str=""
-    factual_consistency_score:str=""
+    metadata_list:list[Metadata]=[]
     errorCode:str="0"
     errorMsg:str=""
 
