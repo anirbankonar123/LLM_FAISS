@@ -48,7 +48,7 @@ Provide the palm api key in palm.configure(api_key=...<br>
 Provide the Vertex AI project id in PROJECT_ID=<br>
 ```
 export OPENAI_API_KEY=
-cd restservices_multillm<br>
+cd restservices_multillm
 uvicorn app.main:app --reload
 ```
 
@@ -60,7 +60,7 @@ docker build . -t <image-name> -f deploy-container.dockerfile
 docker run --name <containername> -d -p 8000:8000 <image-name>
 docker ps
 ```
-Go to 0.0.0.0:8000/docs to test REST Endpoints using Swagger interface
+Go to 0.0.0.0:8000/docs to test REST Endpoints using Swagger interface<br>
 3. To check docker status and rebuild
 ```
 docker ps
