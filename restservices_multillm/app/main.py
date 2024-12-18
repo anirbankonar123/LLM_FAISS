@@ -72,6 +72,116 @@ async def query_api(query:str, modelName: data_models.ModelName, temperature: Un
     output.metadata_list = metadata_list
 
     return output
+    
+"""
+This POST API accepts a User Story and returns the Test cases
+The API takes optional parameters, modelName,temperature, top_p, max_tokens
+"""
+@app.post("/submitRequest/testcasegen",response_model=data_models.Output,summary="generate Test case from User story",description="This POST API accepts a User Story as text, and returns Test cases\
+The API takes optional parameters, modelName,temperature, top_p, max_tokens, repetition_penalty, top_k_RAG",response_description="The API returns the test cases generated \
+", tags=["submitTestCaseRequest"])
+async def testcase_api(userstory:str, modelName: data_models.ModelName, temperature: Union[str, None] = "0.2",top_p: Union[str, None] = "0.4",max_tokens: Union[str, None] = "1024", repetition_penalty:Union[str,None]="1.0"):
+
+    output = data_models.Output()
+    output.status = "success"
+    output.errorMsg = ""
+
+    output = validator.validate(output,temperature,top_p,max_tokens,repetition_penalty,"1")
+    if (output.status=="failure"):
+        return output
+    query_response=""
+
+    response_time=""
+    try:
+        response_arr = []
+        response_time_tot = 0.0
+        reqmnt = userstory
+        query_response, response_time = qa_util.generate_testcase(modelName, reqmnt, temperature, top_p, max_tokens,
+                                                                  repetition_penalty)
+        response_time_tot += float(response_time)
+        response_arr.append(query_response)
+
+    except Exception as error:
+        output.status = "failure"
+        output.errorCode = "100"
+        output.errorMsg = "Failed to generate results:"+str(error)
+
+    output.response = list(response_arr)
+    output.responseTime = str(response_time)+" secs"
+
+    return output
+
+"""
+This POST API accepts a csv File or Excel File with Requirements and writes the csv with generated test cases.
+The API takes optional parameters, modelName,temperature, top_p, max_tokens
+"""
+@app.post("/submitBulkRequest/testcasegen",response_model=data_models.Output,summary="submit Test case request with a csv file",description="This POST API accepts a Excel File with Requirements \
+The API takes optional parameters, modelName,temperature, top_p, max_tokens, top_k_RAG, num_scenarios", response_description="The API returns the status, with Folder Name, \
+ ", tags=["submitBulkTestCaseRequest"])
+async def submitBulkTestCaseRequest_api(modelName: data_models.ModelName, temperature: Union[str, None] = "0.2",top_p: Union[str, None] = "0.4",max_tokens: Union[str, None] = "1024", repetition_penalty:Union[str,None]="1.0", file: UploadFile = File(...)):
+
+
+    output = data_models.Output()
+    output.status = "success"
+    output.errorMsg = ""
+
+    print(file.content_type)
+
+    if file.content_type not in ["text/csv","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"]:
+        output.status = "failure"
+        output.errorCode = "110"
+        output.errorMsg = f"File type of {file.content_type} is not supported"
+        return output
+
+    output = validator.validate(output,temperature,top_p,max_tokens,repetition_penalty,"1")
+    if (output.status=="failure"):
+        return output
+
+    file_name = file.filename.split(".")[0]+str(datetime.datetime.now())+".csv"
+    filepath = os.path.join(".",file_name)
+    print(filepath)
+
+    try:
+        #Convert uploaded file into pandas dataframe
+        if (file.content_type=="text/csv"):
+            df = fileReader.read_csv(file,filepath)
+        else:
+            contents = await file.read()
+            file_arr = filepath.split(".")
+            file_nm = file_arr[0]
+            filepath = file_nm + ".csv"
+            df = fileReader.read_excel(contents)
+        # Write uploaded file into desired location
+        print("No of records:" + str(len(df)))
+        print(df.head())
+
+    except Exception as error:
+        output.status = "failure"
+        output.errorCode = "100"
+        output.errorMsg = "Failed to read uploaded File:"+str(error)
+
+    try:
+        response_arr=[]
+        response_time_tot=0.0
+        for i in range(len(df)):
+            print("processing row no:"+str(i))
+            reqmnt=str(df["Requirement"][i])
+            query_response,response_time = qa_util.generate_testcase(modelName,reqmnt,temperature,top_p,max_tokens,repetition_penalty)
+            response_time_tot+=float(response_time)
+            response_arr.append(query_response)
+
+        df["generated_testcase"]=response_arr
+        df.to_csv(filepath,index=False)
+        print("file written")
+    except Exception as error:
+        output.status = "failure"
+        output.errorCode = "100"
+        output.errorMsg = "Failed to generate results:"+str(error)
+
+    output.response = list(response_arr)
+    output.responseTime = str(response_time_tot)
+    return output
+
 
 """
 This POST API accepts a PDF file and returns status of ingestion
